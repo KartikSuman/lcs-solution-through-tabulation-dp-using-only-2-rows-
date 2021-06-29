@@ -1,0 +1,96 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int LCS(string &s1, string &s2,int m,int n)
+{
+    cout<<"m ="<<m<<" "<<"n ="<<n<<"\n";
+    int L[2][n + 1];
+    int i, j,index=1;
+
+    /* Following steps build L[m+1][n+1] in
+       bottom up fashion. Note that L[i][j]
+       contains length of LCS of X[0..i-1]
+       and Y[0..j-1] */
+       //inintailize 1st and 2nd row
+    for(i = 0; i <  2; i++)
+    {
+        for (j = 0; j <= n; j++)
+        {
+        if (i == 0 || j == 0)
+            L[i][j] = 0;
+        }
+    }
+    //print
+    for(i=0;i<2;i++)
+    {
+        for(j=0;j<=n;j++)
+        {
+            cout<<L[i][j]<<" ";
+        }
+        cout<<"\n";
+    }
+
+   start:
+      {
+     // cout<<"character is "<<s2[index-1]<<"\n";
+      for(i=1;i<2;i++)
+      {
+          for(j=1;j<=n;j++)
+          {
+
+              if (s1[i - 1] == s2[j- 1])
+                {
+                    cout<<"characters compared are "<<s1[i-1]<<"  "<<s2[j-1]<<"\n";
+                    L[i][j] = L[i - 1][j - 1] + 1;
+                    cout<<"Inside IF \n";
+                    cout<<"L[i][j] = "<<L[i][j]<<"and "<<"L[i-1][j-1] = "<<L[i-1][j-1]<<"\n";
+                }
+
+             else
+             {
+                 cout<<"characters compared are "<<s1[i-1]<<"  "<<s2[index-1]<<"\n";
+                    L[i][j] = max(L[i - 1][j], L[i][j - 1]);
+                    cout<<"Inside ELSE \n";
+                    cout<<"L[i][j-1] = "<<L[i][j-1]<<"and "<<"L[i-1][j] = "<<L[i-1][j]<<"\n";
+             }
+
+          }
+      }
+      for(i=0;i<2;i++)
+    {
+        for(j=0;j<=n;j++)
+        {
+            cout<<L[i][j]<<" ";
+        }
+        cout<<"\n";
+    }
+    for(int k=0;k<=n;k++)
+    {
+        L[0][k]=L[1][k];
+    }
+    cout<<"transferring lower row to upper row\n";
+    for(i=0;i<2;i++)
+    {
+        for(j=0;j<=n;j++)
+        {
+            cout<<L[i][j]<<" ";
+        }
+        cout<<"\n";
+    }
+    cout<<"press any key to continue...\n";
+    getchar();
+    index++;}
+    if(index<=n)
+        goto start;
+
+return L[1][n];
+
+}
+
+int main()
+{
+    string s1,s2;
+    cin>>s1>>s2;
+    int len=LCS(s1,s2,s1.length(),s2.length());
+    cout<<len;
+}
